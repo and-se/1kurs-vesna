@@ -14,10 +14,10 @@ int main (int argc, char *argv[]) {
     setValue(k,10); // Передача переменной в качестве аргумента
 
     std::cout << "Task2" << std::endl;
-    std::cout << "Value of adress in memory after first fuction call:" << std::endl;
+    std::cout << "Value in adress after first fuction call:" << std::endl;
     int* p_getPointer = getPointer(0);
     std::cout << *p_getPointer << std::endl; // Вывод значения по сохранённому адресу
-    std::cout << "Value of the same adress after second function call:" << std::endl;
+    std::cout << "Value in the same adress after second function call:" << std::endl;
     getPointer(10); // Вызов функции с другим аргументом
     std::cout << *p_getPointer << std::endl << std::endl; // Повторный вывод значения по тому же аресу
 
