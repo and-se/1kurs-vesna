@@ -29,6 +29,8 @@ int main (int argc, char *argv[]) {
     ShowBin(positiveNum);
     std::cout << "Num -1023 in memory:" << std::endl;
     ShowBin(negativeNum);
+    unsigned char* positiveNum_toChar_pointer = (unsigned char*)(&positiveNum);
+    std::cout << "First 8 bit of num 1023 in memory: " << (int)(*positiveNum_toChar_pointer) << std::endl;
     // Отрицательные числа в дополненном коде, это значит, что знак кодируется первым битом
 
     return 0;
