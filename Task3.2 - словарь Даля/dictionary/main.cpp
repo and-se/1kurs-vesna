@@ -3,7 +3,7 @@
 #include "dictWorking.h"
 #include <cstring>
 
-int main() {
+int mainn() {
     FILE* in;
     //in = stdin;
     in = fopen("SampleOEM866.txt", "r");
