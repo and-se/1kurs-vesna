@@ -8,13 +8,13 @@ int main() {
     //in = stdin;
     in = fopen("SampleOEM866.txt", "r");
     printf("File open\n");
-    Map map = loadDict(in);
+    //Map map = loadDict(in);
 
-    for (int i = 0; i < /*100*/(int)map.length; ++i) {
+    for (int i = 0; i < 100/*(int)map.length*/; ++i) {
         //printf("%s\n", readLongString(in));
         //printf("%s : %s\n", getItemI(map, i).key, getItemI(map, i).value);
     }
-    sortByKey(map);
+    /*sortByKey(map);
     char query[100];
     scanf("%s", query);
     Map result;
@@ -41,7 +41,7 @@ int main() {
                 printf("%s\n", item.key);
             }
         }
-    }
+    }*/
 
     return 0;
 }
