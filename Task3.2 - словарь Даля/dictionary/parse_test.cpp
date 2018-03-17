@@ -5,7 +5,7 @@
 #include <string.h>
 
 int main() {
-    FILE* in = fopen("SampleOEM866.txt", "r");
+    FILE* in = fopen("SampleUTF8.txt", "r");
     printf("File open\n");
 
     for (int i = 0; i < 4; ++i) {
@@ -14,7 +14,8 @@ int main() {
         int valueBegin = 0;
         int numOfKeys = 1;
 
-        while (((*(str+valueBegin) <'а') || (*(str+valueBegin) > 'я')) && (*(str + valueBegin) != '\n')) {
+        while (((*(str+valueBegin) <'a') || (*(str+valueBegin) > 'z')) && (*(str + valueBegin) != '\n')) {
+            printf("%s\n", str+valueBegin);
 
             if (*(str+valueBegin) == ',') {
                 ++numOfKeys;
