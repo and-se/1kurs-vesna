@@ -33,3 +33,4 @@ packages/
 *.o
 *.depend
 *.layout
+*tags
