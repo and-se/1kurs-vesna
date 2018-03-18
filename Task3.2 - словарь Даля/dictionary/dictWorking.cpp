@@ -36,76 +36,58 @@ char* readLongString(FILE *input) {
 Map loadDict (FILE *input/*, Map& map*/) {
     Map result;
     create(result, 10);
-    char* str = readLongString(input);
-    printf("Dict is read\n");
-    char* key;
-    char* value;
-    int m = 0;
 
-    while ((strlen(str) > 1) && (!feof(input))) {
-        int keyLength = 0;
+    while (!feof(input)) {
+        char* str = readLongString(input);
+        int valueBegin = 0;
         int numOfKeys = 1;
-        printf("%d\n", m++);
 
-        while (*(str+keyLength) != ' ') {
+        while (((*(str+valueBegin) <'à') || (*(str+valueBegin) > 'ÿ')) && (*(str + valueBegin) != '\n')) {
 
-            if (*(str + keyLength) == ',') {
+            if (*(str+valueBegin) == ',') {
                 ++numOfKeys;
-                ++keyLength;
             }
 
-            ++keyLength;
+            ++valueBegin;
         }
 
-        key = (char*)(malloc(sizeof(char)*(keyLength + 1)));
-        value = (char*)(malloc(sizeof(char)*(strlen(str) - keyLength)));
-
-        strncpy(key, str, keyLength);
-        strncpy(value, str+keyLength+1, strlen(str)-keyLength-1);
-
-        Item items[numOfKeys];
+        int keyEnds = valueBegin - 1;
 
         if (numOfKeys > 1) {
-            int StartPos = 0;
-            int EndPos = 0;
+            int startPos = 0, endPos = 0;
 
-            for (int i = 0; i < numOfKeys; ++i) {
+            for (int j = 0; j < numOfKeys; ++j) {
 
-                while ((*(key + EndPos) != ',') && (EndPos != (int)strlen(key))) {
-                    ++EndPos;
+                while((*(str + endPos) != ',') && (*(str+endPos) < keyEnds)) {
+                    ++endPos;
                 }
 
-                items[i].key = (char*)(malloc(sizeof(char)*(EndPos - StartPos + 1)));
-                items[i].value = (char*)(malloc(sizeof(char) * strlen(value) + 1));
-                strncpy(items[i].key, key + StartPos, EndPos - StartPos);
-                strcpy(items[i].value, value);
+                Item item;
+                item.key = (char*)(calloc(endPos - startPos - 1, sizeof(char)));
+                strncpy(item.key, str+startPos, endPos - startPos);
+                item.value = (char*)(calloc(strlen(str) - valueBegin + 1, sizeof(char)));
+                strcpy(item.value, str+valueBegin);
+                addItem(result, item);
 
-                EndPos += 2;
-                StartPos = EndPos;
+                endPos+=2;
+                startPos = endPos;
+                free(item.key);
+                free(item.value);
             }
+
         } else {
-            items[0].key = (char*)(malloc(sizeof(char) * strlen(key) + 1));
-            items[0].value = (char*)(malloc(sizeof(char) * strlen(value) + 1));
+            Item item;
+            item.key = (char*)(calloc(keyEnds+1, sizeof(char)));
+            strncpy(item.key, str, keyEnds);
+            item.value = (char*)(calloc(strlen(str) - valueBegin + 1, sizeof(char)));
+            strcpy(item.value, str+valueBegin);
+            addItem(result, item);
 
-            strcpy(items[0].key, key);
-            strcpy(items[0].value, value);
+            free(item.key);
+            free(item.value);
         }
 
-        //free(key);
-        //free(value);
-
-        for (int i = 0; i < numOfKeys; ++i) {
-
-            if (((int)searchItem(result, items[i].key, 0)) == -1) {
-                addItem(result, items[i]);
-            }
-
-            //free(items[i].key);
-            //free(items[i].value);
-        }
-
-        //free(str);
-        str = readLongString(input);
+        free(str);
     }
 
     printf("Dict is read\n");

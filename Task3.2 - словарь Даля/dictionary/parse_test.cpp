@@ -3,19 +3,19 @@
 #include "dictWorking.h"
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
 
-int main() {
-    FILE* in = fopen("SampleUTF8.txt", "r");
+int mainn() {
+    setlocale(0, "");
+    FILE* in = fopen("SampleOEM866_1.txt", "r");
     printf("File open\n");
 
     for (int i = 0; i < 4; ++i) {
         char* str = readLongString(in);
-        printf("%s\n", str);
         int valueBegin = 0;
         int numOfKeys = 1;
 
-        while (((*(str+valueBegin) <'a') || (*(str+valueBegin) > 'z')) && (*(str + valueBegin) != '\n')) {
-            printf("%s\n", str+valueBegin);
+        while (((*(str+valueBegin) <'à') || (*(str+valueBegin) > 'ÿ')) && (*(str + valueBegin) != '\n')) {
 
             if (*(str+valueBegin) == ',') {
                 ++numOfKeys;
@@ -30,19 +30,29 @@ int main() {
         printf("%s\n", value);
         free(value);
         char* keys[numOfKeys];
-        int startPos = 0, endPos = 0;
 
-        for (int j = 0; j < numOfKeys; ++j) {
+        if (numOfKeys > 1) {
+            int startPos = 0, endPos = 0;
 
-            while((*(str + endPos) != ',') && (*(str+endPos) != keyEnds)) {
-                ++endPos;
+            for (int j = 0; j < numOfKeys; ++j) {
+
+                while((*(str + endPos) != ',') && (*(str+endPos) < keyEnds)) {
+                    ++endPos;
+                }
+
+                keys[j] = (char*)(calloc(endPos - startPos - 1, sizeof(char)));
+                strncpy(keys[j], str+startPos, endPos - startPos);
+                endPos+=2;
+                startPos = endPos;
+                printf("%s\n", keys[j]);
+                free(keys[j]);
             }
 
-            keys[j] = (char*)(calloc(endPos - startPos - 1, sizeof(char)));
-            strncpy(keys[j], str+startPos, endPos - startPos);
-            startPos = endPos;
-            printf("%s\n", keys[j]);
-            free(keys[j]);
+        } else {
+            keys[0] = (char*)(calloc(keyEnds+1, sizeof(char)));
+            strncpy(keys[0], str, keyEnds);
+            printf("%s\n", keys[0]);
+            free(keys[0]);
         }
 
         free(str);
