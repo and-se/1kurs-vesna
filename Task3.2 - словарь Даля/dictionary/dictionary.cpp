@@ -200,7 +200,7 @@ int removeItemK (Map& map, char* key, unsigned int startPosition) {
 
 Map searchByQuery (Map map, char* query, bool isSorted) {
     Map result;
-    create(result, 10);
+    create(result, 1);
 
     if (!isSorted) {
         sortByKey(map);
@@ -242,9 +242,13 @@ Map searchByQuery (Map map, char* query, bool isSorted) {
     unsigned int i = last;
 
     while (strcmp(shortKey, query) == 0) {
-        Item item = getItemI(map, i);
+        Item item;
+        item.key = (char*)(malloc(strlen(getItemI(map, i).key) + 1));
+        item.value = (char*)(malloc(strlen(getItemI(map, i).value) + 1));
         addItem(result, item);
         ++i;
+        free(item.key);
+        free(item.value);
         strncpy(shortKey, getItemI(map, i).key, strlen(query));
     }
 
@@ -271,12 +275,12 @@ void sortByKey (Map& map) {
 
 Iterator getIterator (Map map) {
     Iterator result;
-    result.map = &map;
+    result.map = map;
     result.position = 0;
 
     return result;
 }
 
-Item next (Iterator iter) {
-    return getItemI(*(iter.map), iter.position++);
+Item next (Iterator* iter) {
+    return getItemI((*iter).map, (*iter).position++);
 }

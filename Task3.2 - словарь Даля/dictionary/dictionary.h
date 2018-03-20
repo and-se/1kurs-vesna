@@ -15,11 +15,11 @@ struct Map {
 };
 
 struct Iterator {
-    Map* map;
+    Map map;
     unsigned int position;
 };
 
-/** Инициальзирует структуру типа map c map.size = size и map.length = 0*/
+/** Инициализирует структуру типа map c map.size = size и map.length = 0*/
 void create (Map& map, unsigned int size);
 
 /** Удаляет структуру map, очищая зарезервированную память и устанавливая map.lenght = 0*/
@@ -76,6 +76,6 @@ void sortByKey (Map& map);
 Iterator getIterator (Map map);
 
 /** Возвращает следующий элемент из Map на который ссылается iter*/
-Item next (Iterator iter);
+Item next (Iterator* iter);
 
 #endif
