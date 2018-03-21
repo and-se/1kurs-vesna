@@ -13,8 +13,8 @@ void setPointer (int k){
 }
 
 int* getPointer(int value){
-    int a=value;
-    int* pa=&a;
+    int a=value;//берем переменную
+    int* pa=&a;//берем указатель на адрес переменной
     return pa;
 }
 
@@ -34,8 +34,11 @@ int main()
     int* a=getPointer(0);
     cout<<*a<<endl;
     cout<<"Значение по такому же адресу после второго вызова функции: ";
-    getPointer(1);
+    getPointer(1);//меняем значение a в функции
     cout<<*a<<endl;
+    /*
+    В итоге получили, что после того как мы вызвали функцию второй раз по такому же адресу, значение переменной a поменялось
+    */
 
     return 0;
 }
