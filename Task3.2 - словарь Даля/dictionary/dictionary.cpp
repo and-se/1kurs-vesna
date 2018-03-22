@@ -198,61 +198,33 @@ int removeItemK (Map& map, char* key, unsigned int startPosition) {
     return 0;
 }
 
-Map searchByQuery (Map map, char* query, bool isSorted) {
-    Map result;
-    create(result, 1);
+unsigned int searchByQuery (Map map, char* query, bool isSorted) {
 
     if (!isSorted) {
         sortByKey(map);
     }
 
-    char shortKey[strlen(query)+1];
     unsigned int first = 0, last= map.length, mid;
 
     if (map.length == 0) {
-        return result;
-    } else {
-        strncpy(shortKey, getItemI(map, 0).key, strlen(query));
-
-        if (strcmp(shortKey, query) > 0){
-            return result;
-        } else {
-            strncpy(shortKey, getItemI(map, map.length-1).key, strlen(query));
-
-            if (strcmp(shortKey, query) < 0) {
-                return result;
-            }
-
-        }
-
+        return -1;
+    } else if (strncmp(getItemI(map, 0).key, query, strlen(query)) > 0) {
+        return -1;
+    } else if (strncmp(getItemI(map, map.length -1).key, query, strlen(query)) < 0) {
+        return -1;
     }
 
     while (first < last) {
         mid = first + (last - first)/2;
-        strncpy(shortKey, getItemI(map, mid).key, strlen(query));
 
-        if (strcmp(shortKey, query) >= 0) {
+        if (strncmp(getItemI(map, mid).key, query, strlen(query)) >= 0) {
             last = mid;
         } else {
             first = mid + 1;
         }
     }
 
-    strncpy(shortKey, getItemI(map, last).key, strlen(query));
-    unsigned int i = last;
-
-    while (strcmp(shortKey, query) == 0) {
-        Item item;
-        item.key = (char*)(malloc(strlen(getItemI(map, i).key) + 1));
-        item.value = (char*)(malloc(strlen(getItemI(map, i).value) + 1));
-        addItem(result, item);
-        ++i;
-        free(item.key);
-        free(item.value);
-        strncpy(shortKey, getItemI(map, i).key, strlen(query));
-    }
-
-    return result;
+    return last;
 }
 
 void sortByKey (Map& map) {
@@ -273,14 +245,35 @@ void sortByKey (Map& map) {
 
 }
 
-Iterator getIterator (Map map) {
+Iterator getIterator (Map map, char* query, unsigned int startPosition) {
     Iterator result;
+    result.query = query;
     result.map = map;
-    result.position = 0;
+    result.position = startPosition;
 
     return result;
 }
 
-Item next (Iterator* iter) {
-    return getItemI((*iter).map, (*iter).position++);
+Item next (Iterator& iter) {
+    Item item = getItemI(iter.map, iter.position);
+    printf("Item get\n");
+    /*char shortKey[strlen((*iter).query) + 1];
+    printf("Memory allocated\n");
+    strncpy(shortKey, item.key, strlen((*iter).query));
+    printf("Short Key created\n");*/
+
+    printf("Item key: %s\n", item.key);
+    printf("Query: %s\n", iter.query);
+
+    if (strncmp(item.key, iter.query, strlen(iter.query)) == 0) {
+        printf("Keys compared\n");
+        iter.position++;
+        return item;
+    }
+
+    Item result;
+    result.key = NULL;
+    result.value = NULL;
+
+    return result;
 }

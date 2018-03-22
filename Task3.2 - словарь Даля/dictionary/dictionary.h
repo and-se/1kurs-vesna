@@ -17,6 +17,7 @@ struct Map {
 struct Iterator {
     Map map;
     unsigned int position;
+    char* query;
 };
 
 /** Инициализирует структуру типа map c map.size = size и map.length = 0*/
@@ -67,15 +68,16 @@ int removeItemK (Map& map, char* key, unsigned int startPosition);
 /**Возвращает Map из элеменов чьи ключи начинаются с query
 Использует алгоритм бинарного поиска, поэтому предварительно сорирует массив.
 Если массив уже отсортирован можно передать значение isSorted = true*/
-Map searchByQuery (Map map, char* query, bool isSorted);
+unsigned int searchByQuery (Map map, char* query, bool isSorted);
 
 /**Сортирует map по возрастанию ключа методом пузырька*/
 void sortByKey (Map& map);
 
 /**Возвращает Iterator по map*/
-Iterator getIterator (Map map);
+Iterator getIterator (Map map, char* query, unsigned int startPosition);
 
-/** Возвращает следующий элемент из Map на который ссылается iter*/
-Item next (Iterator* iter);
+/** Возвращает следующий элемент из Map, на который ссылается iter, если он удовлетваряет запросу
+Для кореектной работы требуется предварительная сортировка*/
+Item next (Iterator& iter);
 
 #endif

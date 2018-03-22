@@ -7,49 +7,42 @@
 int main() {
     setlocale(0, "");
     FILE* in;
-    Map result;
-    char query[100];
-    Iterator iter;
     in = fopen("SampleOEM866.txt", "r");
     printf("File open\n");
     Map map = loadDict(in);
     sortByKey(map);
+    char query[100];
     scanf("%s", query);
-    create(result,1);
+    Iterator iter;
+
+    for (int i = 0; i < map.length; ++i) {
+            printf("%s : %s\n", getItemI(map, i).key, getItemI(map, i).value);
+    }
 
     while (strcmp(query, "quit") != 0) {
 
         if (strcmp(query, "+") != 0) {
-
-            if (result.length == 0) {
-                remove(result);
-            }
-
-            //Problem is here
-            //Can't get any item from result;
-            result = searchByQuery(map, query, true);
-            iter = getIterator(result);
-            printf("Results prepared\n");
+            iter = getIterator(map, query, searchByQuery(map, query, true));
+            printf("Results prepared, first item at index %d\n", iter.position);
         }
 
         for (int i = 0; i < 10; ++i) {
-            Item item = next(&iter);
+            //Problem is here
+            Item item = next(iter);
             printf("Next item got\n");
 
             if (item.key == NULL) {
+
+                if (i == 1) {
+                    printf("%s\n", getItemI(map, iter.position-1).value);
+                }
+
                 printf("END\n");
                 break;
             }
 
             printf("Next item not last\n");
-
-            if (result.length == 1) {
-                printf("Almost print key and value\n");
-                printf("%s : %s\n", item.key, item.value);
-            } else {
-                printf("Almost print key\n");
-                printf("%s\n", item.key);
-            }
+            printf("%s/n", item.key);
         }
 
         scanf("%s", query);
