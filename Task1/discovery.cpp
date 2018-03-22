@@ -12,6 +12,7 @@ int main (int argc, char *argv[]) {
     std::cout << "Adress of variable: " << std::endl;
     std::cout << pk << std::endl; // Вывод адреса переменной
     setValue(k,10); // Передача переменной в качестве аргумента
+    /*Адрес переменной внутри main и внутри setValue различаются, значит это две разные переменные*/
 
     std::cout << "Task2" << std::endl;
     std::cout << "Value in adress after first fuction call:" << std::endl;
@@ -20,6 +21,10 @@ int main (int argc, char *argv[]) {
     std::cout << "Value in the same adress after second function call:" << std::endl;
     getPointer(10); // Вызов функции с другим аргументом
     std::cout << *p_getPointer << std::endl << std::endl; // Повторный вывод значения по тому же аресу
+    /*После первого вызова функции getPointer запоминаем адрес внутренней переменной, 
+    и проверяем значение по нему после первого и второго вызовов функции
+    Значение по указателю меняется, без его явного изменения в программе, 
+    значит процессор считает эту память свободной и переписывает значение в ней*/
 
     std::cout << "Additional task 2" << std::endl;
     std::cout << "Size of Int type " << sizeof(int) << " byte" << std::endl;
