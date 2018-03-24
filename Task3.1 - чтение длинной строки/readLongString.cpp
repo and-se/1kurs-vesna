@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 
-char* ReadLongString(FILE *input) {
+/*char* ReadLongString(FILE *input) {
     const int readBuffer = 100;
     int stringSize = readBuffer;
     char* string = (char*)(malloc(sizeof(char)*stringSize));
@@ -27,9 +27,39 @@ char* ReadLongString(FILE *input) {
     }
 
     // Remove '/n' symbol
-    *(string + strlen(string) - 1) = '\0';
+    //*(string + strlen(string) - 1) = '\0';
 
     return string;
+}*/
+
+char* ReadLongString(FILE* input) {
+    const int readBuffer = 100;
+    int stringSize = readBuffer;
+    char* strings[2];
+    int i = 0;
+    int position = 0;
+    strings[0] = (char*)(calloc(stringSize, sizeof(char)));
+    strings[1] = (char*)(calloc(stringSize, sizeof(char)));
+
+    while (true) {
+        fgets(strings[i%2] + position, stringSize - position, input);
+        char end = *(strings[i%2] + strlen(strings[i%2]) - 1);
+
+        if ((end!= '\n') && (!feof(input))) {
+            free(strings[(i+1)%2]);
+            position = stringSize - 1;
+            stringSize += readBuffer;
+            strings[(i+1)%2] = (char*)(calloc(stringSize, sizeof(char)));
+            strcpy(strings[(i+1)%2], strings[i%2]);
+            ++i;
+        } else {
+            break;
+        }
+
+    }
+
+    free(strings[(i+1)%2]);
+    return strings[i%2];
 }
 
 int main()
