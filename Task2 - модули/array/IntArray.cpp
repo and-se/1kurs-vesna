@@ -4,14 +4,13 @@
 IntArray create (int size) {
     IntArray array;
     array.data = (int*)(malloc(sizeof(int)*size));
-    array.size = (int*)(malloc(sizeof(int)));
-    *array.size = size;
+    array.size = size;
 
     return array;
 }
 
 bool getItem (IntArray array, int index, int& result) {
-    if ((index >= *array.size) || (index < 0)) {
+    if ((index >= array.size) || (index < 0)) {
         return false;
     }
 
@@ -20,7 +19,7 @@ bool getItem (IntArray array, int index, int& result) {
 }
 
 bool setItem (IntArray array, int index, int value) {
-    if ((index >= *array.size) || (index < 0)) {
+    if ((index >= array.size) || (index < 0)) {
         return false;
     }
 
@@ -29,6 +28,6 @@ bool setItem (IntArray array, int index, int value) {
 }
 
 void remove (IntArray array) {
-    free(array.size);
+    array.size = 0;
     free(array.data);
 }

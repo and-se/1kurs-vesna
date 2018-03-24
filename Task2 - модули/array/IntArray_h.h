@@ -3,7 +3,7 @@
 
 struct IntArray {
     int* data;
-    int* size;
+    int size;
 };
 
 /*Создаёт массив размера size и возвращает его в качестве результата*/

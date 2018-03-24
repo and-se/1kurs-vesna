@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
 
 void write (IntArray array) {
     int result;
-    for (int i = 0; i < *array.size; ++i)
+    for (int i = 0; i < array.size; ++i)
     {
         if (getItem(array, i, result)) {
             std::cout << result << " ";
@@ -124,10 +124,10 @@ void sort (IntArray array, int direct) {
 
     if (direct == 1){
 
-        for (int i = 0; i < *array.size; ++i)
+        for (int i = 0; i < array.size; ++i)
         {
 
-            for (int j = 0; j < *array.size - 1 - i; ++j)
+            for (int j = 0; j < array.size - 1 - i; ++j)
             {
 
                 if ((getItem(array,j,result1)) && (getItem(array, j+1, result2))) {
@@ -147,10 +147,10 @@ void sort (IntArray array, int direct) {
 
     } else {
 
-        for (int i = 0; i < *array.size; ++i)
+        for (int i = 0; i < array.size; ++i)
         {
 
-            for (int j = 0; j < *array.size - 1 - i; ++j)
+            for (int j = 0; j < array.size - 1 - i; ++j)
             {
 
                 if ((getItem(array,j,result1)) && (getItem(array, j+1, result2))) {
@@ -189,9 +189,9 @@ void move(IntArray array, int direct) {
 
     if(direct == 1){
         int tmp;
-        getItem(array, *array.size - 1, tmp);
+        getItem(array, array.size - 1, tmp);
 
-            for (int i = *array.size - 2; i >= 0; i--) {
+            for (int i = array.size - 2; i >= 0; i--) {
                 int result;
 
                 if (getItem(array, i, result)) {
@@ -212,7 +212,7 @@ void move(IntArray array, int direct) {
         int tmp;
         getItem(array, 0, tmp);
 
-        for (int i = 0; i <= *array.size - 2; ++i) {
+        for (int i = 0; i <= array.size - 2; ++i) {
             int result;
 
             if (getItem(array, i+1, result)) {
@@ -227,7 +227,7 @@ void move(IntArray array, int direct) {
 
         }
 
-        setItem(array, *array.size - 1, tmp);
+        setItem(array, array.size - 1, tmp);
     }
 }
 
@@ -239,12 +239,12 @@ void put (IntArray array, int index, int value) {
 
 void reverse (IntArray array) {
 
-    for (int i = 0; i < *array.size/2; ++i) {
+    for (int i = 0; i < array.size/2; ++i) {
         int tmp1, tmp2;
         
-        if((getItem(array, i, tmp1)) && (getItem(array, *array.size - i -1, tmp2))) {
+        if((getItem(array, i, tmp1)) && (getItem(array, array.size - i -1, tmp2))) {
             setItem(array, i , tmp2);
-            setItem(array, *array.size -i - 1, tmp1);
+            setItem(array, array.size -i - 1, tmp1);
         } else {
             std::cout << "Error: out of bounds" << std::endl;
         }
