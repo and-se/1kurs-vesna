@@ -1,6 +1,5 @@
 #include <cstdio>
 #include "dictionary.h"
-#include "dictWorking.h"
 #include <cstring>
 #include <iostream>
 
@@ -10,7 +9,6 @@ int main() {
     in = fopen("SampleOEM866.txt", "r");
     printf("File open\n");
     Map map = loadDict(in);
-    sortByKey(map);
     char query[100];
     scanf("%s", query);
     Iterator iter;
@@ -22,7 +20,7 @@ int main() {
     while (strcmp(query, "quit") != 0) {
 
         if (strcmp(query, "+") != 0) {
-            iter = getIterator(map, query, searchByQuery(map, query, true));
+            iter = getIterator(map, query);
             printf("Results prepared, first item at index %d\n", iter.position);
         }
 

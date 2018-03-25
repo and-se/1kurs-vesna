@@ -45,26 +45,6 @@ Item getItemI (Map map, unsigned int index);
 Возвращает -1 если index >= map.length и 0 если успешно завершится*/
 int setItemI (Map& map, Item item, unsigned int index);
 
-/** Ищет первый элемент в map со значением ключа key и индесом >= startPosition
-Возвращает -1 если элемент не найден или если startPosition >= map.length и индес элемента при успешном завершении*/
-unsigned int searchItem (Map map, char* key, unsigned int startPosition);
-
-/** Возвращает первый элемент из map со значением ключа key и индексом >= startPosition
-ВНИМАНИЕ! Не испоьзуите эту функцию для приствоения значений так getItemK(...).key = ...;
-Для присвоения значений используйте setItemI или setItemK
-Либо элемент со значениями NULL если startPosition за пределами map или если элемент не найден*/
-Item getItemK (Map map, char* key, unsigned int startPosition);
-
-/** Устанавливает первый элемент из map со значением ключа key и индексом >= startPosition в значение item
-При этом в map создаётся копия item (с выделением памяти)
-Возвращает -1 если startPosition >= map.length и 0 при успешном завершении*/
-int setItemK (Map& map, char* key, Item item, unsigned int startPosition);
-
-/** Удаляет первый элемент из map с ключом key и индексом >= startPosition
-Для этого очищает занимаемую им память и смещает последующие элементы влево
-Возвращает -1 если startPosition >= map.length и 0 при успешном завершении*/
-int removeItemK (Map& map, char* key, unsigned int startPosition);
-
 /**Возвращает Map из элеменов чьи ключи начинаются с query
 Использует алгоритм бинарного поиска, поэтому предварительно сорирует массив.
 Если массив уже отсортирован можно передать значение isSorted = true*/
@@ -73,11 +53,16 @@ unsigned int searchByQuery (Map map, char* query, bool isSorted);
 /**Сортирует map по возрастанию ключа методом пузырька*/
 void sortByKey (Map& map);
 
-/**Возвращает Iterator по map*/
-Iterator getIterator (Map map, char* query, unsigned int startPosition);
+/**Возвращает Iterator по map, который будет возвращать статьи удовлетворяющие запросу query*/
+Iterator getIterator (Map map, char* query);
 
-/** Возвращает следующий элемент из Map, на который ссылается iter, если он удовлетваряет запросу
-Для кореектной работы требуется предварительная сортировка*/
+/** Возвращает следующий элемент из Map, на который ссылается iter, если он удовлетворяет запросу*/
 Item next (Iterator& iter);
+
+/**Загружает словарь из потока input, сортирует его и возвращает в качестве результата*/
+Map loadDict (FILE *input);
+
+/**Считывает длинную строку из input*/
+char* readLongString(FILE *input);
 
 #endif

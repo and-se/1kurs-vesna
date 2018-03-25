@@ -33,7 +33,6 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="SampleOEM866.txt" />
-		<Unit filename="dictWorking.cpp" />
 		<Unit filename="dictWorking.h" />
 		<Unit filename="dictionary.cpp" />
 		<Unit filename="dictionary.h" />

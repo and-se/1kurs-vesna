@@ -141,68 +141,7 @@ int setItemI (Map& map, Item item, unsigned int index) {
     return 0;
 }
 
-unsigned int searchItem (Map map, char* key, unsigned int startPosition) {
-    unsigned int result = -1;
-
-    if(startPosition > map.length - 1) {
-        return result;
-    }
-
-    for (unsigned int i = startPosition; i < map.length; ++i) {
-        Item item = getItemI(map, i);
-
-        if(strcmp(key, item.key) == 0) {
-            result = i;
-            break;
-        }
-
-    }
-
-    return result;
-}
-
-Item getItemK (Map map, char* key, unsigned int startPosition) {
-    Item result;
-
-    if(startPosition > map.length - 1) {
-        result.key = NULL;
-        result.value = NULL;
-
-        return result;
-    }
-
-    result = getItemI(map, searchItem(map, key, startPosition));
-
-    return result;
-}
-
-int setItemK (Map& map, char* key, Item item, unsigned int startPosition) {
-
-    if(startPosition > map.length - 1) {
-        return -1;
-    }
-
-    setItemI(map, item, searchItem(map, key, startPosition));
-
-    return 0;
-}
-
-int removeItemK (Map& map, char* key, unsigned int startPosition) {
-
-    if (startPosition > map.length - 1) {
-        return -1;
-    }
-
-    removeItemI(map, searchItem(map, key, startPosition));
-
-    return 0;
-}
-
-unsigned int searchByQuery (Map map, char* query, bool isSorted) {
-
-    if (!isSorted) {
-        sortByKey(map);
-    }
+unsigned int searchByQuery (Map map, char* query) {
 
     unsigned int first = 0, last= map.length, mid;
 
@@ -245,11 +184,11 @@ void sortByKey (Map& map) {
 
 }
 
-Iterator getIterator (Map map, char* query, unsigned int startPosition) {
+Iterator getIterator (Map map, char* query) {
     Iterator result;
     result.query = query;
     result.map = map;
-    result.position = startPosition;
+    result.position = searchByQuery(map, query);
 
     return result;
 }
@@ -276,4 +215,97 @@ Item next (Iterator& iter) {
     result.value = NULL;
 
     return result;
+}
+
+Map loadDict (FILE *input) {
+    Map result;
+    create(result, 10);
+
+    while (!feof(input)) {
+        char* str = readLongString(input);
+        int valueBegin = 0;
+        int numOfKeys = 1;
+
+        while (((*(str+valueBegin) <'à') || (*(str+valueBegin) > 'ÿ')) && (*(str + valueBegin) != '\n')) {
+
+            if (*(str+valueBegin) == ',') {
+                ++numOfKeys;
+            }
+
+            ++valueBegin;
+        }
+
+        int keyEnds = valueBegin - 1;
+
+        if (numOfKeys > 1) {
+            int startPos = 0, endPos = 0;
+
+            for (int j = 0; j < numOfKeys; ++j) {
+
+                while((*(str + endPos) != ',') && (*(str+endPos) < keyEnds)) {
+                    ++endPos;
+                }
+
+                Item item;
+                item.key = (char*)(calloc(endPos - startPos - 1, sizeof(char)));
+                strncpy(item.key, str+startPos, endPos - startPos);
+                item.value = (char*)(calloc(strlen(str) - valueBegin + 1, sizeof(char)));
+                strcpy(item.value, str+valueBegin);
+                addItem(result, item);
+
+                endPos+=2;
+                startPos = endPos;
+                free(item.key);
+                free(item.value);
+            }
+
+        } else {
+            Item item;
+            item.key = (char*)(calloc(keyEnds+1, sizeof(char)));
+            strncpy(item.key, str, keyEnds);
+            item.value = (char*)(calloc(strlen(str) - valueBegin + 1, sizeof(char)));
+            strcpy(item.value, str+valueBegin);
+            addItem(result, item);
+
+            free(item.key);
+            free(item.value);
+        }
+
+        free(str);
+    }
+
+    sortByKey(result);
+
+    printf("Dict is read\n");
+    return result;
+}
+
+char* readLongString(FILE *input) {
+    const int readBuffer = 100;
+    int stringSize = readBuffer;
+    char* string = (char*)(malloc(sizeof(char)*stringSize));
+    int position = 0;
+
+    while (true) {
+        fgets(string + position, stringSize - position, input);
+        char end = *(string + strlen(string) - 1);
+
+        if((end != '\n') && (!feof(input))) {
+            char temp[stringSize];
+            strcpy(temp, string);
+            position = stringSize - 1;
+            stringSize += readBuffer;
+            free(string);
+            string = (char*)(malloc(sizeof(char)*stringSize));
+            strcpy(string, temp);
+        } else {
+            break;
+        }
+
+    }
+
+    // Remove '/n' symbol
+    //*(string + strlen(string) - 1) = '\0';
+
+    return string;
 }
