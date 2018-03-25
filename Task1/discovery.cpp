@@ -21,9 +21,9 @@ int main (int argc, char *argv[]) {
     std::cout << "Value in the same adress after second function call:" << std::endl;
     getPointer(10); // Вызов функции с другим аргументом
     std::cout << *p_getPointer << std::endl << std::endl; // Повторный вывод значения по тому же аресу
-    /*После первого вызова функции getPointer запоминаем адрес внутренней переменной, 
+    /*После первого вызова функции getPointer запоминаем адрес внутренней переменной,
     и проверяем значение по нему после первого и второго вызовов функции
-    Значение по указателю меняется, без его явного изменения в программе, 
+    Значение по указателю меняется, без его явного изменения в программе,
     значит операционная система считает эту память свободной и переписывает значение в ней*/
     /*Вывод: переменная создаваемая внутри функции и существует только в ней.
     После выхода из функции зарезервированная функцией,
@@ -33,16 +33,64 @@ int main (int argc, char *argv[]) {
     std::cout << "Size of Int type " << sizeof(int) << " byte" << std::endl;
     int positiveNum = 1023;
     int negativeNum = -1023;
-    std::cout << "Num 1023 in memory:" << std::endl;
-    ShowBin(positiveNum);
-    std::cout << "Num -1023 in memory:" << std::endl;
-    ShowBin(negativeNum);
-    unsigned char* positiveNum_toChar_pointer = (unsigned char*)(&positiveNum);
-    std::cout << "First 8 bit of num 1023 in memory: " << (int)(*positiveNum_toChar_pointer) << std::endl;
-    /*Вывод числа показал, что числа кодируются в т.н. дополненном коде,
-    отсюда следует, что знак кодируестя первым битом.
-    Вывод первого занимаемого числом 1023 байта показывает, что числа (по крайней мере на моём ПК)
-    хранятся в обратном порядке т.е. младщие биты стоят в начале*/
+    unsigned char* negNum_toChar_pointer = (unsigned char*)(&negativeNum);
+    unsigned char* posNum_toChar_pointer = (unsigned char*)(&positiveNum);
+
+    for (int i = 0; i < 4; ++i) {
+        switch (i+1) {
+            case 1: {
+                std::cout << "First";
+                break;
+            }
+            case 2: {
+                std::cout << "Second";
+                break;
+            }
+            case 3: {
+                std::cout << "Third";
+                break;
+            }
+            case 4: {
+                std::cout << "Fourth";
+                break;
+            }
+        }
+        std::cout << " 8 bit of num -1023 in memory: " << (int)(*negNum_toChar_pointer) << std::endl;
+        negNum_toChar_pointer++;
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        switch (i+1) {
+            case 1: {
+                std::cout << "First";
+                break;
+            }
+            case 2: {
+                std::cout << "Second";
+                break;
+            }
+            case 3: {
+                std::cout << "Third";
+                break;
+            }
+            case 4: {
+                std::cout << "Fourth";
+                break;
+            }
+        }
+        std::cout << " 8 bit of num 1023 in memory: " << (int)(*posNum_toChar_pointer) << std::endl;
+        posNum_toChar_pointer++;
+    }
+
+    /*Вывод числа показал, две вещи
+    Во-первых, что числа кодируются в т.н. дополненном коде,
+    то есть положительные числа просто переводятся в двоиную счситему считсления,
+    а отрицательные инвертируются и к ним прибавляется 1.
+    Такой способ позволяет держать знак в первом бите, а так же,
+    в отличии от обратного кода, числа +0 и -0 кодируются одинаково.
+    Во-вторых, из вывода на моей машине очевидно,
+    что числа на моём компьютере хранятся в т.н. обратном порядке
+    То есть наименьший бит числа находится в ячейке с меньшим адресом*/
 
     return 0;
 }
@@ -60,22 +108,4 @@ int* getPointer (int value) {
     int* pa = &a;
 
     return pa; // Возвращение адреса локальной переменой в качестве результата
-}
-
-void ShowBin (int a) {
-
-    for (int i = 0; i < 32; i++) {
-
-        //Проверяем старший бит
-        if (a & 2147483648) {
-            std::cout << "1";
-        } else {
-            std::cout << "0";
-        }
-
-        //Сдвигаем влево на 1 бит
-        a = a << 1;
-    }
-
-    std::cout << std::endl;
 }
