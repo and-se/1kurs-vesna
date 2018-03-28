@@ -220,13 +220,15 @@ Item next (Iterator& iter) {
 Map loadDict (FILE *input) {
     Map result;
     create(result, 10);
+    printf("map created\n");
 
     while (!feof(input)) {
         char* str = readLongString(input);
         int valueBegin = 0;
         int numOfKeys = 1;
+        printf("String is read\n");
 
-        while (((*(str+valueBegin) <'à') || (*(str+valueBegin) > 'ÿ')) && (*(str + valueBegin) != '\n')) {
+        while (((*(str+valueBegin) <'а') || (*(str+valueBegin) > 'я')) && (*(str + valueBegin) != '\n')) {
 
             if (*(str+valueBegin) == ',') {
                 ++numOfKeys;
@@ -234,6 +236,8 @@ Map loadDict (FILE *input) {
 
             ++valueBegin;
         }
+
+        printf("Value begin is found\n");
 
         int keyEnds = valueBegin - 1;
 

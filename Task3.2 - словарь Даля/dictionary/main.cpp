@@ -3,21 +3,21 @@
 #include <cstring>
 #include <iostream>
 
-int main() {
+int mainn() {
     setlocale(0, "");
     FILE* in;
     in = fopen("SampleOEM866.txt", "r");
     printf("File open\n");
     Map map = loadDict(in);
     char query[100];
-    scanf("%s", query);
+    //scanf("%s", query);
     Iterator iter;
 
     for (int i = 0; i < map.length; ++i) {
             printf("%s : %s\n", getItemI(map, i).key, getItemI(map, i).value);
     }
 
-    while (strcmp(query, "quit") != 0) {
+    /*while (strcmp(query, "quit") != 0) {
 
         if (strcmp(query, "+") != 0) {
             iter = getIterator(map, query);
@@ -44,7 +44,7 @@ int main() {
         }
 
         scanf("%s", query);
-    }
+    }*/
 
     return 0;
 }
