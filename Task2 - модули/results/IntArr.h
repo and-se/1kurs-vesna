@@ -1,4 +1,5 @@
 //IntArr.h
+//просто коммент
 struct IntArray
 {
    int* data;
