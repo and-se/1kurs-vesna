@@ -25,6 +25,7 @@ void print(IntArray b)///вывожу на экран
 
     }
 }
+///
 int sort(IntArray b)///сортирую пузырьком
 {
     
