@@ -1,16 +1,13 @@
-#include <cstdio>
+#include <stdio.h>
 #include "dictionary.h"
-#include "tree.h"
-#include "valueStorage.h"
-#include <cstring>
+#include <stdlib.h>
+#include <string.h>
 #include <iostream>
-#include <cstdlib>
 
-int main () {
+int mainn() {
     setlocale(0, "");
     FILE* in = fopen("SampleOEM866.txt", "r");
-    Storage* store = new Storage(10);
-    node* tree = new node("/0", 0);
+    printf("File open\n");
 
     for (int i = 0; i < 100; ++i) {
         char* str = readLongString(in);
@@ -27,10 +24,10 @@ int main () {
         }
 
         int keyEnds = valueBegin - 1;
-        char* value = new char[strlen(str) - valueBegin + 1];
+        char* value = (char*)(calloc(strlen(str) - valueBegin + 1, sizeof(char)));
         strcpy(value, str+valueBegin);
-        //Value founded
-        add(store, value);
+        printf("%s\n", value);
+        free(value);
         char* keys[numOfKeys];
 
         if (numOfKeys > 1) {
@@ -42,24 +39,22 @@ int main () {
                     ++endPos;
                 }
 
-                keys[j] = new char[endPos - startPos - 1];
+                keys[j] = (char*)(calloc(endPos - startPos - 1, sizeof(char)));
                 strncpy(keys[j], str+startPos, endPos - startPos);
-                //Key j founded
-                insert(tree, keys[j], i);
                 endPos+=2;
                 startPos = endPos;
+                printf("%s\n", keys[j]);
+                free(keys[j]);
             }
 
         } else {
-            keys[0] = new char[keyEnds+1];
+            keys[0] = (char*)(calloc(keyEnds+1, sizeof(char)));
             strncpy(keys[0], str, keyEnds);
-            //Key founded
-            insert(tree, keys[0], i);
+            printf("%s\n", keys[0]);
+            free(keys[0]);
         }
 
         free(str);
     }
 
 }
-
-
