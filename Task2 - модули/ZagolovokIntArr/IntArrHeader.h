@@ -17,11 +17,11 @@ void DeleteArray(IntArray array);
 
 /*¬ переменную result возвращаетс€ значение элемента с индексом index массива array
 ¬озвращает false при выходе за границу массива*/
-bool Get (IntArray array, int index, int& result);
+bool Return (IntArray array, int index, int& result);
 
 /*Ёлементу с индексом index array присваиваетс€ значение value
 ¬озвращает false при выходе за границу массива*/
-bool Set (IntArray array, int index, int value);
+bool Assignment (IntArray array, int index, int value);
 
 
 #endif // INTARR_H_INCLUDED

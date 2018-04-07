@@ -23,12 +23,12 @@ IntArray CreateArray(int size)
 void DeleteArray(IntArray array)
 {
     cout << "Delete your array" << endl;
-    free(array.data); //удаление памяти созданной для переменных из структуры
-    free(array.size);
+    delete array.data; //удаление памяти созданной для переменных из структуры
+    delete array.size;
 }
 
 
-bool Get (IntArray array, int index, int& result)
+bool Return (IntArray array, int index, int& result)
 {
     if ((*array.size <= index) || (index < 0))
     {
@@ -40,7 +40,7 @@ bool Get (IntArray array, int index, int& result)
 }
 
 
-bool Set (IntArray array, int index, int value)
+bool Assignment (IntArray array, int index, int value)
 {
     if ((*array.size <= index) || (index < 0))
     {
