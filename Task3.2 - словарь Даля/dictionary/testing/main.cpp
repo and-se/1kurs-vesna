@@ -6,11 +6,14 @@
 #include <iostream>
 #include <cstdlib>
 
+node* postorder (node* p, char* query);
+void nul (node* p);
+
 int main () {
     setlocale(0, "");
     FILE* in = fopen("SampleOEM866.txt", "r");
     Storage* store = new Storage(10);
-    node* tree = new node("/0", 0);
+    node* tree = create(nullptr, 0);
 
     for (int i = 0; i < 100; ++i) {
         char* str = readLongString(in);
@@ -45,7 +48,8 @@ int main () {
                 keys[j] = new char[endPos - startPos - 1];
                 strncpy(keys[j], str+startPos, endPos - startPos);
                 //Key j founded
-                insert(tree, keys[j], i);
+                //printf("String = %d, key = %s\n", i+1, keys[j]);
+                tree = insert(tree, keys[j], i);
                 endPos+=2;
                 startPos = endPos;
             }
@@ -54,12 +58,66 @@ int main () {
             keys[0] = new char[keyEnds+1];
             strncpy(keys[0], str, keyEnds);
             //Key founded
-            insert(tree, keys[0], i);
+            //printf("String = %d, key = %s\n", i+1, keys[0]);
+            tree = insert(tree, keys[0], i);
         }
 
         free(str);
     }
 
+    char query[100];
+    char oldQuery[100];
+    scanf("%s", query);
+
+    while (strcmp(query, "quit") != 0) {
+
+        if (strcmp(query, "next") == 0) {
+
+            for (int i = 0; i < 10; ++i) {
+                printf("%s\n", postorder(tree, oldQuery) -> key);
+            }
+
+        }else{
+            strcpy(oldQuery, query);
+            nul(tree);
+
+            for (int i = 0; i < 10; ++i) {
+                printf("%s\n", postorder(tree, oldQuery) -> key);
+            }
+
+        }
+
+    }
+
 }
 
+node* postorder (node* p, char* query){
 
+    if (p -> left != nullptr) {
+        postorder(p -> left, query);
+    }
+
+    if((strncmp(p -> key, query, strlen(query)) == 0) && (!p -> isUsed)) {
+        p -> isUsed = true;
+        return p;
+    }
+
+    if (p -> right != nullptr) {
+        postorder(p -> right, query);
+    }
+
+}
+
+void nul (node* p) {
+
+    if (p -> left != nullptr) {
+        nul(p -> left);
+    }
+
+    p -> isUsed = false;
+
+    if (p -> right != nullptr) {
+        nul(p -> right);
+    }
+
+}

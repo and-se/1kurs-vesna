@@ -2,8 +2,23 @@
 #include "tree.h"
 #include <cstdio>
 
+node* create(char* k, unsigned int pos) {
+    node* result = new node;
+    result -> key = k;
+    result -> position = pos;
+    result -> left = result -> right = nullptr;
+    result -> height = 0;
+    result -> isUsed = false;
+
+    return result;
+}
+
 unsigned char height (node* p) {
-    return p?p->height:0;
+    if (p != nullptr) {
+        return p -> height;
+    } else {
+        return 0;
+    }
 }
 
 int bfactor (node* p) {
@@ -60,11 +75,15 @@ node* balance (node* p) {
 
 node* insert (node* p, char* key, unsigned int pos) {
 
-    if (!p) {
-        return new node(key, pos);
+    if (p == nullptr) {
+        return create(key, pos);
     }
 
-    if (strcmp(key, p -> key) < 0) {
+    if (p -> key == nullptr) {
+        return create(key, pos);
+    }
+
+    if (strcmp(key, p -> key) <= 0) {
         p -> left = insert(p -> left, key, pos);
     } else {
         p -> right = insert(p -> right, key, pos);
@@ -74,12 +93,16 @@ node* insert (node* p, char* key, unsigned int pos) {
 }
 
 node* findmin (node* p) {
-    return p->left?findmin(p->left):p;
+    if (p -> left != nullptr) {
+        return findmin(p -> left);
+    } else {
+        return p;
+    }
 }
 
 node* removemin(node* p) {
 
-    if (p -> left == 0) {
+    if (p -> left == nullptr) {
         return p -> right;
     }
 
@@ -88,7 +111,7 @@ node* removemin(node* p) {
 }
 
 node* remove (node* p, char* key) {
-    if (!p) {
+    if (p != nullptr) {
         return 0;
     }
 
@@ -100,7 +123,9 @@ node* remove (node* p, char* key) {
         node* q = p -> left;
         node* r = p -> right;
         delete p;
-        if (!r) return q;
+        if (r != nullptr) {
+            return q;
+        }
         node* min = findmin(r);
         min -> right = removemin(r);
         min -> left = q;

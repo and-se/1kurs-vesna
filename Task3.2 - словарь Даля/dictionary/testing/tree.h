@@ -5,11 +5,12 @@ struct node {
     char* key;
     unsigned int position;
     unsigned char height; // char is less than int
+    bool isUsed;
     node* left;
     node* right;
-    node (char* k, unsigned int pos) { key = k; position = pos; left = right = 0; height = 0; }
 };
 
+node* create(char* k, unsigned int pos);
 unsigned char height (node* p);
 int bfactor (node* p);
 void fixheight (node* p);
