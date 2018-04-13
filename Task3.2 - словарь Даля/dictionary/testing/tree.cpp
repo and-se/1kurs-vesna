@@ -2,13 +2,12 @@
 #include "tree.h"
 #include <cstdio>
 
-node* create(char* k, unsigned int pos) {
+node* create(char* k, char* val) {
     node* result = new node;
     result -> key = k;
-    result -> position = pos;
+    result -> value = val;
     result -> left = result -> right = nullptr;
     result -> height = 0;
-    result -> isUsed = false;
 
     return result;
 }
@@ -73,20 +72,20 @@ node* balance (node* p) {
     return p;
 }
 
-node* insert (node* p, char* key, unsigned int pos) {
+node* insert (node* p, char* key, char* value) {
 
     if (p == nullptr) {
-        return create(key, pos);
+        return create(key, value);
     }
 
     if (p -> key == nullptr) {
-        return create(key, pos);
+        return create(key, value);
     }
 
     if (strcmp(key, p -> key) <= 0) {
-        p -> left = insert(p -> left, key, pos);
+        p -> left = insert(p -> left, key, value);
     } else {
-        p -> right = insert(p -> right, key, pos);
+        p -> right = insert(p -> right, key, value);
     }
 
     return balance(p);

@@ -1,19 +1,17 @@
 #include <cstdio>
 #include "dictionary.h"
 #include "tree.h"
-#include "valueStorage.h"
 #include <cstring>
 #include <iostream>
 #include <cstdlib>
 
-node* postorder (node* p, char* query);
-void nul (node* p);
+node* searchQ (node* p, char* query, node* result);
+void postorder (node* p);
 
 int main () {
     setlocale(0, "");
     FILE* in = fopen("SampleOEM866.txt", "r");
-    Storage* store = new Storage(10);
-    node* tree = create(nullptr, 0);
+    node* tree = create(nullptr, nullptr);
 
     for (int i = 0; i < 100; ++i) {
         char* str = readLongString(in);
@@ -33,7 +31,6 @@ int main () {
         char* value = new char[strlen(str) - valueBegin + 1];
         strcpy(value, str+valueBegin);
         //Value founded
-        add(store, value);
         char* keys[numOfKeys];
 
         if (numOfKeys > 1) {
@@ -48,8 +45,7 @@ int main () {
                 keys[j] = new char[endPos - startPos - 1];
                 strncpy(keys[j], str+startPos, endPos - startPos);
                 //Key j founded
-                //printf("String = %d, key = %s\n", i+1, keys[j]);
-                tree = insert(tree, keys[j], i);
+                tree = insert(tree, keys[j], value);
                 endPos+=2;
                 startPos = endPos;
             }
@@ -58,8 +54,7 @@ int main () {
             keys[0] = new char[keyEnds+1];
             strncpy(keys[0], str, keyEnds);
             //Key founded
-            //printf("String = %d, key = %s\n", i+1, keys[0]);
-            tree = insert(tree, keys[0], i);
+            tree = insert(tree, keys[0], value);
         }
 
         free(str);
@@ -67,57 +62,38 @@ int main () {
 
     char query[100];
     char oldQuery[100];
-    scanf("%s", query);
 
-    while (strcmp(query, "quit") != 0) {
-
-        if (strcmp(query, "next") == 0) {
-
-            for (int i = 0; i < 10; ++i) {
-                printf("%s\n", postorder(tree, oldQuery) -> key);
-            }
-
-        }else{
-            strcpy(oldQuery, query);
-            nul(tree);
-
-            for (int i = 0; i < 10; ++i) {
-                printf("%s\n", postorder(tree, oldQuery) -> key);
-            }
-
-        }
-
-    }
-
+    //scanf("%s", query);
+    node* res = create(nullptr, nullptr);
+    res = searchQ (tree, "ÀÁÀ", res);
+    postorder(res);
 }
 
-node* postorder (node* p, char* query){
+node* searchQ (node* p, char* query, node* result){
 
-    if (p -> left != nullptr) {
-        postorder(p -> left, query);
+    if (p->left != nullptr) {
+        result = searchQ(p -> left, query, result);
     }
 
-    if((strncmp(p -> key, query, strlen(query)) == 0) && (!p -> isUsed)) {
-        p -> isUsed = true;
-        return p;
+    if (strncmp(query, p -> key, strlen(query)) == 0) {
+        result = insert(result, p -> key, p -> value);
     }
 
     if (p -> right != nullptr) {
-        postorder(p -> right, query);
+        result = searchQ(p -> right, query, result);
     }
 
+    return result;
 }
 
-void nul (node* p) {
-
+void postorder (node* p) {
     if (p -> left != nullptr) {
-        nul(p -> left);
+        postorder(p -> left);
     }
 
-    p -> isUsed = false;
+    printf("%s\n", p -> key);
 
     if (p -> right != nullptr) {
-        nul(p -> right);
+        postorder(p -> right);
     }
-
 }
