@@ -1,17 +1,22 @@
+#include <fstream>;
 #include <cstdio>
 #include "dictionary.h"
 #include "tree.h"
+#include "list.h"
 #include <cstring>
 #include <iostream>
-#include <cstdlib>
+#include <Windows.h>
 
-node* searchQ (node* p, char* query, node* result);
-void postorder (node* p);
+void postorder (ListNode* p);
+//void print_Tree(node * p, int level, FILE* fout);
+void setParent (node* p);
 
 int main () {
     setlocale(0, "");
+    //SetConsoleCP(1251);
+    //SetConsoleOutputCP(1251);
     FILE* in = fopen("SampleOEM866.txt", "r");
-    node* tree = create(nullptr, nullptr);
+    node* tree = nullptr;
 
     for (int i = 0; i < 100; ++i) {
         char* str = readLongString(in);
@@ -45,7 +50,7 @@ int main () {
                 keys[j] = new char[endPos - startPos - 1];
                 strncpy(keys[j], str+startPos, endPos - startPos);
                 //Key j founded
-                tree = insert(tree, keys[j], value);
+                tree = tree::insert(tree, keys[j], value);
                 endPos+=2;
                 startPos = endPos;
             }
@@ -54,46 +59,66 @@ int main () {
             keys[0] = new char[keyEnds+1];
             strncpy(keys[0], str, keyEnds);
             //Key founded
-            tree = insert(tree, keys[0], value);
+            tree = tree::insert(tree, keys[0], value);
         }
 
         free(str);
     }
 
-    char query[100];
+    fclose(in);
+    setParent(tree);
+
+    Iter* iterator = new Iter (tree, "ÀÁÀ");
+
+    node* res = tree::next(iterator);
+
+    while (res != nullptr) {
+        printf("%s\n", res -> key);
+        res = tree::next(iterator);
+    }
+
+    /*char* query = new char[100];
     char oldQuery[100];
-
-    //scanf("%s", query);
-    node* res = create(nullptr, nullptr);
-    res = searchQ (tree, "ÀÁÀ", res);
-    postorder(res);
+    FILE* logOut = fopen("queries.log", "w");
+    query = fgets(query, 101, stdin);
+    fwrite(query, 1, strlen(query), logOut);
+    fclose(logOut);
+    FILE* logIn = fopen("queries.log", "r");
+    query = fgets(query, 101, logIn);
+    printf("%s\n", query);*/
+    //printf("%s\n", searchQ(tree, "À") -> key);
 }
 
-node* searchQ (node* p, char* query, node* result){
+/*void print_Tree (node * p, int level, FILE* fout)
+{
+    if(p != nullptr)
+    {
+        print_Tree(p->left,level + 1, fout);
 
-    if (p->left != nullptr) {
-        result = searchQ(p -> left, query, result);
+        for (int i = 0; i < level; i++){
+            fwrite(" ", 1, 2, fout);
+        }
+
+        fwrite(p -> key, 1, strlen(p -> key), fout);
+        fwrite("\n", 1, 1, fout);
+        print_Tree(p->right,level + 1, fout);
     }
+}*/
 
-    if (strncmp(query, p -> key, strlen(query)) == 0) {
-        result = insert(result, p -> key, p -> value);
-    }
-
-    if (p -> right != nullptr) {
-        result = searchQ(p -> right, query, result);
-    }
-
-    return result;
-}
-
-void postorder (node* p) {
+void setParent (node* p) {
     if (p -> left != nullptr) {
-        postorder(p -> left);
+        setParent(p -> left);
     }
 
-    printf("%s\n", p -> key);
+    if (p -> left != nullptr) {
+        p -> left -> parent = p;
+    }
 
     if (p -> right != nullptr) {
-        postorder(p -> right);
+        p -> right -> parent = p;
+    }
+
+    if (p -> right != nullptr) {
+        setParent(p -> right);
     }
 }

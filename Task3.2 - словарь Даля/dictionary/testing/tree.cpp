@@ -2,12 +2,15 @@
 #include "tree.h"
 #include <cstdio>
 
-node* create(char* k, char* val) {
+namespace tree {
+
+node* create (char* k, char* val) {
     node* result = new node;
     result -> key = k;
     result -> value = val;
     result -> left = result -> right = nullptr;
     result -> height = 0;
+    result -> parent = nullptr;
 
     return result;
 }
@@ -21,7 +24,7 @@ unsigned char height (node* p) {
 }
 
 int bfactor (node* p) {
-    return height(p->right) - height(p->left);
+    return height(p->right) - tree::height(p->left);
 }
 
 void fixheight (node* p) {
@@ -75,17 +78,17 @@ node* balance (node* p) {
 node* insert (node* p, char* key, char* value) {
 
     if (p == nullptr) {
-        return create(key, value);
+        node* result = create(key, value);
+        //result -> parent = nullptr;
+        return result;
     }
 
-    if (p -> key == nullptr) {
-        return create(key, value);
-    }
-
-    if (strcmp(key, p -> key) <= 0) {
+    if (strcmp(key, p -> key) < 0) {
         p -> left = insert(p -> left, key, value);
+        //p -> left -> parent = p;
     } else {
         p -> right = insert(p -> right, key, value);
+        //p -> right -> parent = p;
     }
 
     return balance(p);
@@ -132,4 +135,70 @@ node* remove (node* p, char* key) {
     }
 
     return balance(p);
+}
+
+node* next (Iter* iterator) {
+
+    if (iterator -> lastResult == nullptr) {
+        iterator -> lastResult = searchQ(iterator -> tree, iterator -> query);
+        return iterator -> lastResult;
+    } else if (iterator -> lastResult -> right != nullptr) {
+        node* current = iterator -> lastResult -> right;
+
+        if(strncmp(iterator -> query, current -> key, strlen(iterator -> query)) == 0) {
+
+            while (current -> left != nullptr) {
+                current = current -> left;
+            }
+
+            iterator -> lastResult = current;
+            return iterator -> lastResult;
+        } else {
+            return nullptr;
+        }
+
+    } else {
+        node* current = iterator -> lastResult -> parent;
+        node* previous = iterator -> lastResult;
+
+        while ((current -> left != previous) && (current != nullptr)) {
+            current = current -> parent;
+            previous = previous -> parent;
+        }
+
+        if (current != nullptr) {
+            iterator -> lastResult = current;
+            return iterator -> lastResult;
+        } else {
+            return nullptr;
+        }
+    }
+
+}
+
+node* searchQ (node* p, char* query) {
+    node* min = nullptr;
+    node* current = p;
+
+    while (true) {
+        if (strncmp(query, current -> key, strlen(query)) == 0) {
+
+            if ((min == nullptr) || (strcmp(current -> key, min -> key) < 0)) {
+                min = current;
+            }
+
+        }
+
+        if ((current->left != nullptr) && (strncmp(current -> key, query, strlen(query)) >= 0)) {
+            current = current -> left;
+        } else if ((current -> right != nullptr) && (strncmp(current -> key, query, strlen(query)) < 0)) {
+            current = current -> right;
+        } else {
+            break;
+        }
+    }
+
+    return min;
+}
+
 }
