@@ -34,12 +34,7 @@
 		</Compiler>
 		<Unit filename="dictionary.cpp" />
 		<Unit filename="dictionary.h" />
-		<Unit filename="list.cpp" />
-		<Unit filename="list.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="main.cpp" />
-		<Unit filename="parse_test.cpp" />
 		<Unit filename="tree.cpp" />
 		<Unit filename="tree.h">
 			<Option target="&lt;{~None~}&gt;" />
