@@ -2,7 +2,15 @@
 #include "tree.h"
 #include <cstdio>
 
-namespace tree {
+unsigned char height (node* p);
+int bfactor (node* p);
+void fixheight (node* p);
+node* rotateleft (node* q);
+node* rotateright (node* p);
+node* balance (node* p);
+node* findmin (node* p);
+node* removemin (node* p);node*
+searchQ (node* p, char* query);
 
 node* create (char* k, char* val) {
     node* result = new node;
@@ -24,7 +32,7 @@ unsigned char height (node* p) {
 }
 
 int bfactor (node* p) {
-    return height(p->right) - tree::height(p->left);
+    return height(p->right) - height(p->left);
 }
 
 void fixheight (node* p) {
@@ -201,4 +209,20 @@ node* searchQ (node* p, char* query) {
     return min;
 }
 
+void setParent (node* p) {
+    if (p -> left != nullptr) {
+        setParent(p -> left);
+    }
+
+    if (p -> left != nullptr) {
+        p -> left -> parent = p;
+    }
+
+    if (p -> right != nullptr) {
+        p -> right -> parent = p;
+    }
+
+    if (p -> right != nullptr) {
+        setParent(p -> right);
+    }
 }
