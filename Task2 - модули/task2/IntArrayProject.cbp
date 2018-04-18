@@ -33,7 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="IntArr.cpp" />
-		<Unit filename="IntArr1.h" />
+		<Unit filename="IntArr.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
