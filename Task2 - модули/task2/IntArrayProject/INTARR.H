@@ -1,6 +1,3 @@
-#ifndef IntArray_h
-#define IntArray_h
-
 struct IntArray{
     int *data;
     int size;
@@ -34,4 +31,4 @@ IntArray newArray (IntArray array);
 void put (IntArray array, int index, int value);
 
 
-#endif
+
