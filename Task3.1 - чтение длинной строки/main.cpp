@@ -1,8 +1,6 @@
 #include <cstdio>
 #include <cstring>
 #include <clocale>
-#include<cstdlib>
-
 
 
 /// Читает строку любой длины из потока, пока не встретит перевод строки \n.
@@ -39,7 +37,7 @@ char* ReadLongString(FILE* str)
 
         } else{
         char* newBuf = buf;
-        buf = new char[size*2];
+        buf = new char[size * 2];
         strcpy(buf, newBuf);
         delete[] newBuf;
         /// записываем данные с середины буфера
@@ -64,7 +62,7 @@ char* ReadLongString(FILE* str)
 int main()
 {
     //setlocale(LC_ALL, "Russian"); // только ломает
-    /*printf("Input long string\n");
+    printf("Input long string\n");
 
     // Читаем строчку с консоли
     char* s = ReadLongString(stdin);
@@ -75,9 +73,6 @@ int main()
     // Сохраняем в файл - можно даже кириллицу набирать
     // но смотреть такой файло надо будет в Notepad++ --> Кодировки --> Кириллица --> OEM866
     printf("Saving it to file file.txt (encoding OEM866)\n");
-
-
-
     FILE* out = fopen("file.txt", "w");
     // в функцию передаётся void* указатель, поэтому вторым параметром (1) мы говорим, сколько байт занимает один элемент массива
     fwrite(s, 1, strlen(s), out);
@@ -86,7 +81,7 @@ int main()
 
     // Удаляем строку из кучи
     delete[] s;
-*/
+
     printf("Load it from file.txt\n");
 
     // Читаем файл
@@ -95,10 +90,10 @@ int main()
     fclose(in);
 
     printf("Read from file: %s", s2);
-    printf("Length=%d\n", strlen(s2));
+    printf("Length=%d\n",strlen(s2));
 
     // Не забываем освободить память
     delete[] s2;
-    system("pause");
+
     return 0;
 }
