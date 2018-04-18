@@ -2,6 +2,7 @@
 #include <cstring>
 
 // В этом модуле поместим функцию ReadLongString из первой части задания
+//comment
 #include "StringUtils.h"
 
 int main()
