@@ -34,3 +34,5 @@ packages/
 *.depend
 *.layout
 *tags
+/Task3.1 - чтение длинной строки/file.txt
+/Task3.2 - словарь Даля/dictionary/testing/tree.txt
