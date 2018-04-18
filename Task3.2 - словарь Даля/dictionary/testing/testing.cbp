@@ -35,10 +35,6 @@
 		<Unit filename="dictionary.cpp" />
 		<Unit filename="dictionary.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="tree.cpp" />
-		<Unit filename="tree.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

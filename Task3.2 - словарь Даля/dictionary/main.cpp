@@ -1,50 +1,75 @@
+#include <fstream>;
 #include <cstdio>
 #include "dictionary.h"
 #include <cstring>
 #include <iostream>
+#include <Windows.h>
 
-int mainn() {
+int main () {
     setlocale(0, "");
-    FILE* in;
-    in = fopen("SampleOEM866.txt", "r");
-    printf("File open\n");
-    Map map = loadDict(in);
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    FILE* fin = fopen("SampleOEM866.txt", "r");
+    loadDict(fin);
+    fclose(fin);
+    Iter* iterator = nullptr;
     char query[100];
-    //scanf("%s", query);
-    Iterator iter;
+    scanf("%s", query);
 
-    for (int i = 0; i < map.length; ++i) {
-            printf("%s : %s\n", getItemI(map, i).key, getItemI(map, i).value);
-    }
+    while (strcmp(query, "quit") != 0) {
 
-    /*while (strcmp(query, "quit") != 0) {
+        if (strcmp(query, "+") == 0) {
 
-        if (strcmp(query, "+") != 0) {
-            iter = getIterator(map, query);
-            printf("Results prepared, first item at index %d\n", iter.position);
-        }
+            if (iterator == nullptr) {
+                printf("ERROR: No query\n");
 
-        for (int i = 0; i < 10; ++i) {
-            //Problem is here
-            Item item = next(iter);
-            printf("Next item got\n");
+            } else {
+               node* res = next(iterator);
 
-            if (item.key == NULL) {
+                for (int i = 0; i < 10; ++i) {
 
-                if (i == 1) {
-                    printf("%s\n", getItemI(map, iter.position-1).value);
+                    if (res == nullptr) {
+                        printf("NULL\n");
+                        break;
+                    }
+
+                    printf("%s\n", res -> key);
+                    res = next(iterator);
                 }
 
-                printf("END\n");
-                break;
             }
 
-            printf("Next item not last\n");
-            printf("%s/n", item.key);
+        } else {
+
+            if (iterator == nullptr) {
+                iterator = newIter(query);
+            } else {
+                delete iterator;
+                iterator = newIter(query);
+            }
+
+            node* res = next(iterator);
+            char* firstValue = res -> value;
+
+            for (int i = 0; i < 10; ++i) {
+
+                if (res == nullptr) {
+
+                    if (i == 1) {
+                        printf("%s", firstValue);
+                    }
+
+                    printf("NULL\n");
+                    break;
+                }
+
+                printf("%s\n", res -> key);
+                res = next(iterator);
+            }
+
         }
 
         scanf("%s", query);
-    }*/
+    }
 
-    return 0;
 }
