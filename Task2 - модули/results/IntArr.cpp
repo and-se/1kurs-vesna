@@ -48,7 +48,7 @@ int receiving(IntArray b)///получение элемента
     int n;
     cout<<"Введите номер элемента"<<endl;
     cin>>n;
-    if(n<=b.length&&n>=0)
+    if(n<=b.length&&n>0)
     {  
         cout<<"элемент"<<n<<"-"<<*(b.data+n-1)<<endl;
     }
@@ -66,7 +66,7 @@ int insert(IntArray b)///запись элемента
     cout<<"Введите номер элемента"<<endl;
     cin>>n;
      
-    if(n<=b.length&&n>=0)
+    if(n<=b.length&&n>0)
     { 
         int e;
        cout<<"Введите элемент"<<endl;
