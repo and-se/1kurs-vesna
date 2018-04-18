@@ -150,26 +150,21 @@ node* next (Iter* iterator) {
     if (iterator -> lastResult == nullptr) {
         iterator -> lastResult = searchQ(iterator -> tree, iterator -> query);
         return iterator -> lastResult;
-    } else if (iterator -> lastResult -> right != nullptr) {
-        node* current = iterator -> lastResult -> right;
+    } else if (iterator -> lastResult -> right != nullptr) { //Has right
+        node* current = searchQ(iterator -> lastResult -> right, iterator -> query);
 
-        if(strncmp(iterator -> query, current -> key, strlen(iterator -> query)) == 0) {
-
-            while (current -> left != nullptr) {
-                current = current -> left;
-            }
-
+        if (current != nullptr) {
             iterator -> lastResult = current;
             return iterator -> lastResult;
         } else {
             return nullptr;
         }
 
-    } else {
+    } else {  //No right
         node* current = iterator -> lastResult -> parent;
         node* previous = iterator -> lastResult;
 
-        while ((current -> left != previous) && (current != nullptr)) {
+        while ((current != nullptr) && ((current -> left != previous) || (strncmp(current -> key, iterator -> query, strlen(iterator -> query)) != 0))) {
             current = current -> parent;
             previous = previous -> parent;
         }

@@ -15,9 +15,7 @@ int main () {
     fclose(fin);
     char query[100];
     scanf("%s", query);
-
     Iter* iterator = new Iter (tree, query);
-
     node* res = next(iterator);
 
     while (res != nullptr) {
@@ -25,19 +23,3 @@ int main () {
         res = next(iterator);
     }
 }
-
-/*void print_Tree (node * p, int level, FILE* fout)
-{
-    if(p != nullptr)
-    {
-        print_Tree(p->left,level + 1, fout);
-
-        for (int i = 0; i < level; i++){
-            fwrite(" ", 1, 2, fout);
-        }
-
-        fwrite(p -> key, 1, strlen(p -> key), fout);
-        fwrite("\n", 1, 1, fout);
-        print_Tree(p->right,level + 1, fout);
-    }
-}*/
