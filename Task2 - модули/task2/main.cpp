@@ -1,4 +1,4 @@
-#include "IntArr1.h"
+#include "IntArr.h"
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
