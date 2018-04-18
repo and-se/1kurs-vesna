@@ -1,3 +1,6 @@
+#ifndef INTARR_H_INCLUDED
+#define INTARR_H_INCLUDED
+
 struct IntArray{
     int *data;
     int size;
@@ -30,5 +33,4 @@ IntArray newArray (IntArray array);
 ///Изменяет значение по индексу
 void put (IntArray array, int index, int value);
 
-
-
+#endif // INTARR_H_INCLUDED

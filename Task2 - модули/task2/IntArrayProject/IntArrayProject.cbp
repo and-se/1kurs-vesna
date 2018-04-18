@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="INTARR.CPP" />
+		<Unit filename="INTARR.H" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
