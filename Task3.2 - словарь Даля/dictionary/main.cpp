@@ -49,18 +49,14 @@ int main () {
             }
 
             node* res = next(iterator);
-            char* firstValue = nullptr;
-
-            if (res != nullptr) {
-                firstValue = res -> value;
-            }
+            node* firstRes = res;
 
             for (int i = 0; i < 10; ++i) {
 
                 if (res == nullptr) {
 
                     if (i == 1) {
-                        printf("%s", firstValue);
+                        printf("%s", firstRes -> value);
                     }
 
                     printf("NULL\n");
