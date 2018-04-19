@@ -49,7 +49,11 @@ int main () {
             }
 
             node* res = next(iterator);
-            char* firstValue = res -> value;
+            char* firstValue = nullptr;
+
+            if (res != nullptr) {
+                firstValue = res -> value;
+            }
 
             for (int i = 0; i < 10; ++i) {
 
