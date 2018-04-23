@@ -1,4 +1,4 @@
-#include <fstream>;
+#include <fstream>
 #include <cstdio>
 #include "dictionary.h"
 #include <cstring>
