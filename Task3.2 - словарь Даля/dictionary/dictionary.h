@@ -1,3 +1,4 @@
+#define nullptr 0
 #ifndef dictionary
 #define dictionary
 
