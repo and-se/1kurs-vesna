@@ -39,13 +39,15 @@ void sort(IntArray array)//сортировка массива
         }
 
 }
-
+void mistake(IntArray array){
+for ( int i=0; i > array.size; ++i){
+        cout << "Error: you went beyond the array";
+}
 
 
 int main()
 {
-    //Вызываем функцию для создания массива размером, которую ввёл пользователь
-    int size;
+    int size;//Вызываем функцию для создания массива размером, которую ввёл пользователь
     cout << "Enter the length of the array = ";
     cin >> size;
     IntArray array = CreateArray(size);//создание массива размера size
@@ -54,16 +56,17 @@ int main()
     char answer[100];
 
     for ( int i=0; i < size; ++i){//вывод массива на экран
-        Assignment(array, i, (100 + rand()%101));//элементу с индексом i присваивается значение случайного числа
+        Assignment(array, i, (rand() % 201 - 100);//элементу с индексом i присваивается значение случайного числа
     }
     cout << "array sorting";
     void sort();
     for ( int i=0; i < size; ++i){//вывод массива на экран
         Assignment(array, i, *array.data);
-    }
+    void mistake();
+
     DeleteArray(array);
     return 0;
 }
-
+}
 
 
