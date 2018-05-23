@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Словарь Даля</title>
+<style>
+  	body {
+  		color: white;
+  		background-color: #f7ebd5;
+  	}
+  	.title {
+  		font-family: Open Sans;
+  		font-size: 60px;
+  		text-align: center;
+  		padding-top: 80px;
+  		letter-spacing: 14px;
+  	}
+  	.container {
+		  background: #ffffff url(dal.jpg);
+  		width: 1000px;
+  		margin-left: auto;
+  		margin-right: auto;
+  		height: 900px;
+  	}
+  	.subtitle {
+  		font-family: Open Sans;
+  		font-size: 15px;
+  		text-align: center;
+  		letter-spacing: 3px;
+  	}
+	* {box-sizing: border-box;}
+	form {
+  		position: relative;
+  		width: 300px;
+  		margin: 0 auto;
+	}
+	input, button {
+  		border: none;
+  		outline: none;
+  		border-radius: 0px; /*округление рамки*/
+	}
+	input {/**/
+  		width: 100%;
+  		height: 25px;
+  		background: #ffffff;
+  		padding-left: 15px;
+	}
+	button { /*кнопка, высота, ширина, позиция и цвет*/
+  		height: 25px;
+  		width: 45px;
+  		position: absolute;
+  		top: 0px;
+  		right: 0px;
+  		background: #483524;
+  		cursor: pointer;
+	}
+  .conclusion {
+    width: 800px;
+    height: 500px;
+    background-color: #483524;
+    opacity: 20%;
+    margin-top: 100px;
+  }
+</style>
+</head>
+
+<body>
+	<div align="center" class = "container">
+		<h class = "title">СЛОВАРЬ <br>ДАЛЯ</h>
+ 		<p  class = "subtitle">ПОИСК</p>
+		<form>
+  			<input type="text" placeholder="Введите слово...">
+  			<button type="submit"></button>
+		</form>
+    <div align="center" class ="conclusion" >
+    </div> 
+	</div>
+   
+</body>
+</html>
