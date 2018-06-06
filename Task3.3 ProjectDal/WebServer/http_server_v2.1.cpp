@@ -129,12 +129,14 @@ int main()
             // В буфере запроса.
             buf[result] = '\0';
 
+            cout << buf << "\n\n";
+
             // Данные успешно получены
             // формируем тело ответа (HTML)
 
 
 
-            ifstream in("SampleOEM866.txt");
+            ifstream in("index.html");
             in.seekg(0, in.end);
             int n = in.tellg();// размер файла
             in.seekg(0);
