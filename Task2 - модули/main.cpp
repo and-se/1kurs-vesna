@@ -2,58 +2,65 @@
 #include<cstdlib>
 #include<ctime>
 #include <cstring>
-#include "IntArrHeader.h" // gРѕРґРєР»СЋС‡Р°РµРј РјРѕРґСѓР»СЊ СЂР°Р±РѕС‚С‹ СЃ РјР°СЃСЃРёРІР°РјРё
+
+// Подключаем модуль работы с массивами
+#include "IntArrHeader.h"
+
 
 using namespace std;
 
-void sort(IntArray array)//СЃРѕСЂС‚РёСЂРѕРІРєР° РјР°СЃСЃРёРІР°
+void sort(IntArray array)//сортировка массива
 {
     int result1;
     int result2;
-    for (int i = 0; i < *array.size; ++i) //С†РёРєР» РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРѕРєР° РЅРµ РїРµСЂРµР±РµСЂС‘С‚ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР°
+    for (int i = 0; i < *array.size; ++i) //цикл выполняется пока не переберёт все элементы массива
         {
-            for (int j = 0; j < *array.size - 1 - i; ++j) // РЅР°С‡РёРЅР°СЏ СЃ РїРµСЂРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+
+            for (int j = 0; j < *array.size - 1 - i; ++j) // начиная с первого элемента
             {
-                if ((Return(array,j,result1)) && (Return(array, j+1, result2)))
-                {
+
+                if ((Return(array,j,result1)) && (Return(array, j+1, result2))) {
+                        /*если значение J элемента равно значению result1
+                        и значение следующего элемента равно result 2, то*/
                     if (result1 > result2)
+                        /*если значение первого больше чем значение второго, то
+                        присваиваем элементу J значение result2*/
                         {
                         Assignment(array, j, result2);
                         Assignment(array, j+1, result1);
                         }
                     }
-                else // РІ РґСЂСѓРіРѕРј СЃР»СѓС‡Р°Рµ РІС‹С…РѕРґ Р·Р° РіСЂР°РЅРёС†Сѓ
-                { 
+                else { // в другом случае выход за границу
                     cout << "Going abroad";
                 }
-            }
-        }
-}
 
+            }
+
+        }
+
+}
 void mistake(IntArray array){
-for ( int i=0; i > array.size; ++i)
-{
+for ( int i=0; i > array.size; ++i){
         cout << "Error: you went beyond the array";
 }
 
+
 int main()
 {
-    int size; //Р’С‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РјР°СЃСЃРёРІР° СЂР°Р·РјРµСЂРѕРј, РєРѕС‚РѕСЂСѓР№ РІРІtР» РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ
+    int size;//Вызываем функцию для создания массива размером, которую ввёл пользователь
     cout << "Enter the length of the array = ";
     cin >> size;
-    IntArray array = CreateArray(size); //СЃРѕР·РґР°РЅРёРµ РјР°СЃСЃРёРІР° СЂР°Р·РјРµСЂР° size
+    IntArray array = CreateArray(size);//создание массива размера size
 
     srand(time(NULL));
     char answer[100];
 
-    for ( int i=0; i < size; ++i)
-    {
-        Assignment(array, i, (rand() % 201 - 100);
+    for ( int i=0; i < size; ++i){//вывод массива на экран
+        Assignment(array, i, (rand() % 201 - 100);//элементу с индексом i присваивается значение случайного числа
     }
     cout << "array sorting";
     void sort();
-    for ( int i=0; i < size; ++i)
-    {
+    for ( int i=0; i < size; ++i){//вывод массива на экран
         Assignment(array, i, *array.data);
     void mistake();
 
@@ -61,3 +68,5 @@ int main()
     return 0;
 }
 }
+
+
