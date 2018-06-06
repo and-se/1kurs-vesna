@@ -61,4 +61,19 @@
 		margin-top: 20px;
 		margin-left: 20px;
 		text-align: left;
+
+	}
+	.resultss {
+		font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+		letter-spacing: 1px;
+  		font-size: 15px;
+		margin-top: 20px;
+		margin-left: 20px;
+		text-align: left;
+	}
+	A { 
+	text-decoration: none; 
+	} 
+	A:hover { 
+	color: white; /* —сылка красного цвета */ 
 	}
