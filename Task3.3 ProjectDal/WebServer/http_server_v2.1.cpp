@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fstream>
+#include <Windows.h>
 
 /// Выписка из https://code-live.ru/post/cpp-http-server-over-sockets/
 
@@ -16,6 +18,8 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 using std::cerr;
+using namespace std;
+
 
 int main()
 {
@@ -47,7 +51,7 @@ int main()
 
     // Инициализируем структуру, хранящую адрес сокета - addr
     // Наш HTTP-сервер будет висеть на 8000-м порту локалхоста
-    result = getaddrinfo("127.0.0.1", "8000", &hints, &addr);
+    result = getaddrinfo("127.0.0.1", "1032", &hints, &addr);
 
     // Если инициализация структуры адреса завершилась с ошибкой,
     // выведем сообщением об этом и завершим выполнение программы
@@ -125,20 +129,36 @@ int main()
             // В буфере запроса.
             buf[result] = '\0';
 
+            cout << buf << "\n\n";
+
             // Данные успешно получены
             // формируем тело ответа (HTML)
-            response_body << "<title>Test C++ HTTP Server</title>\n"
-                << "<h1>Test page</h1>\n"
-                << "<p>This is body of the test page...</p>\n"
-                << "<h2>Request headers</h2>\n"
-                << "<pre>" << buf << "</pre>\n"
-                << "<em><small>Test C++ Http Server</small></em>\n";
+
+
+
+            ifstream in("index.html");
+            in.seekg(0, in.end);
+            int n = in.tellg();// размер файла
+            in.seekg(0);
+            string* text=new string [n];
+            for(int i = 0; i != n; i++)
+                {
+                    char s;
+                    if (in.get(s))
+                        {
+                            text[i] = s;
+                        }
+                    response_body << text[i];
+
+                }
+
 
             // Формируем весь ответ вместе с заголовками
             response << "HTTP/1.1 200 OK\r\n"
                 << "Version: HTTP/1.1\r\n"
                 << "Content-Type: text/html; charset=utf-8\r\n"
-                << "Content-Length: " << response_body.str().length()
+                << "Content-Length: "
+                << response_body.str().length()
                 << "\r\n\r\n"
                 << response_body.str();
 
@@ -155,9 +175,5 @@ int main()
         }
     }
 
-    // Убираем за собой
-    closesocket(listen_socket);
-    freeaddrinfo(addr);
-    WSACleanup();
-    return 0;
+
 }
